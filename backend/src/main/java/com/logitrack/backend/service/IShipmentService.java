@@ -1,6 +1,6 @@
 package com.logitrack.backend.service;
 
-import com.logitrack.backend.dto.ShipmentDTO;
+import com.logitrack.backend.dto.shipment.ShipmentDTO;
 
 import java.util.List;
 

@@ -3,6 +3,7 @@ package com.logitrack.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor @NoArgsConstructor
@@ -17,4 +18,10 @@ public class Customer {
     private String name;
     private String email;
     private String phone;
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+    }
 }

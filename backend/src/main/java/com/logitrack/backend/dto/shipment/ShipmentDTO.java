@@ -1,4 +1,4 @@
-package com.logitrack.backend.dto;
+package com.logitrack.backend.dto.shipment;
 
 import com.logitrack.backend.model.Address;
 import com.logitrack.backend.model.Customer;

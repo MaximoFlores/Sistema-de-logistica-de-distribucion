@@ -1,31 +1,45 @@
 package com.logitrack.backend.model;
 
+import com.logitrack.backend.util.IdentificationType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@AllArgsConstructor @NoArgsConstructor
+@Getter @Setter
+@Builder
 @Entity
-@Table(name = "persons")
+@Table(name = "persons",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = { "identification_type", "identification_number"}
+                )
+        }
+)
 public class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private UUID id;
+    private Long id;
 
-    @Column(name = "full_name")
-    private String fullName;
+    @Column(name = "first_name")
+    private String firstName;
 
-    @Column(name = "document", unique = true, nullable = false)
-    private String document;
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "identification_type", nullable = false)
+    private IdentificationType identificationType;
+
+    @Column(name = "identification_number", nullable = false)
+    private String identificationNumber;
 
     private String phone;
+
+    @Column(nullable = false)
+    private String email;
 
 }

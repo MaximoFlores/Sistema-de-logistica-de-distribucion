@@ -1,9 +1,7 @@
 package com.logitrack.backend.service;
 
-import com.logitrack.backend.dto.ShipmentDTO;
+import com.logitrack.backend.dto.shipment.ShipmentDTO;
 import com.logitrack.backend.mapper.Mapper;
-import com.logitrack.backend.model.Customer;
-import com.logitrack.backend.model.Shipment;
 import com.logitrack.backend.repository.IShipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

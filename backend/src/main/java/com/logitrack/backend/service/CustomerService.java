@@ -1,14 +1,16 @@
 package com.logitrack.backend.service;
 
-import com.logitrack.backend.dto.CustomerDTO;
-import com.logitrack.backend.exception.NotFoundException;
+import com.logitrack.backend.dto.customer.CustomerCreateDTO;
+import com.logitrack.backend.dto.customer.CustomerResponseDTO;
+import com.logitrack.backend.dto.customer.CustomerUpdateDTO;
+import com.logitrack.backend.exception.BusinessException;
+import com.logitrack.backend.exception.ResourceNotFoundException;
 import com.logitrack.backend.mapper.Mapper;
 import com.logitrack.backend.model.Customer;
 import com.logitrack.backend.repository.ICustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Map;
 
 public class CustomerService implements ICustomerService{
 
@@ -16,34 +18,38 @@ public class CustomerService implements ICustomerService{
     private ICustomerRepository repo;
 
     @Override
-    public List<CustomerDTO> getCustomers() {
+    public List<CustomerResponseDTO> getCustomers() {
         return repo.findAll().stream().map(Mapper::toDTO).toList();
     }
 
     @Override
-    public CustomerDTO createCustomer(CustomerDTO customerDTO) {
+    public CustomerResponseDTO createCustomer(CustomerCreateDTO customerCreateDTO) {
+        if(repo.existsByNameIgnoreCase(customerCreateDTO.getName())) {
+            throw new BusinessException("A customer with that name already exists");
+        }
+
         Customer customer = Customer.builder()
-                .name(customerDTO.getName())
-                .email(customerDTO.getEmail())
-                .phone(customerDTO.getPhone())
+                .name(customerCreateDTO.getName())
+                .email(customerCreateDTO.getEmail())
+                .phone(customerCreateDTO.getPhone())
                 .build();
 
         return Mapper.toDTO(repo.save(customer));
     }
 
     @Override
-    public CustomerDTO getCustomer(Long id) {
-        Customer customer = repo.findById(id).orElseThrow(() -> new NotFoundException("Customer not found"));
+    public CustomerResponseDTO getCustomer(Long id) {
+        Customer customer = repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
         return Mapper.toDTO(customer);
     }
 
     @Override
-    public CustomerDTO updateCustomer(Long id, CustomerDTO customerDTO) {
-        Customer customer = repo.findById(id).orElseThrow(() -> new NotFoundException("Customer not found"));
+    public CustomerResponseDTO updateCustomer(Long id, CustomerUpdateDTO customerUpdateDTO) {
+        Customer customer = repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
-        customer.setName(customerDTO.getName());
-        customer.setPhone(customerDTO.getPhone());
-        customer.setEmail(customerDTO.getEmail());
+        customer.setName(customerUpdateDTO.getName());
+        customer.setPhone(customerUpdateDTO.getPhone());
+        customer.setEmail(customerUpdateDTO.getEmail());
         return Mapper.toDTO(repo.save(customer));
     }
 

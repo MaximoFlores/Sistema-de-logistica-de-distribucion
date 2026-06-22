@@ -1,13 +1,11 @@
 package com.logitrack.backend.mapper;
 
 import com.logitrack.backend.dto.address.AddressDTO;
-import com.logitrack.backend.dto.CustomerDTO;
-import com.logitrack.backend.dto.ShipmentDTO;
+import com.logitrack.backend.dto.customer.CustomerResponseDTO;
+import com.logitrack.backend.dto.person.PersonResponseDTO;
+import com.logitrack.backend.dto.shipment.ShipmentDTO;
 import com.logitrack.backend.dto.branch.BranchResponseDTO;
-import com.logitrack.backend.model.Address;
-import com.logitrack.backend.model.Branch;
-import com.logitrack.backend.model.Customer;
-import com.logitrack.backend.model.Shipment;
+import com.logitrack.backend.model.*;
 
 public class Mapper {
 
@@ -49,14 +47,15 @@ public class Mapper {
                 .build();
     }
     // Mapeo de Customer a CustomerDTO
-    public static CustomerDTO toDTO(Customer customer) {
+    public static CustomerResponseDTO toDTO(Customer customer) {
         if (customer == null) return null;
 
-        return CustomerDTO.builder()
+        return CustomerResponseDTO.builder()
                 .id(customer.getId())
                 .name(customer.getName())
                 .email(customer.getEmail())
                 .phone(customer.getPhone())
+                .createdAt(customer.getCreatedAt())
                 .build();
     }
     // Mapeo de Shipment a ShipmentDTO
@@ -71,6 +70,16 @@ public class Mapper {
                 .destinationAddress(shipment.getDestinationAddress())
                 .originAddress(shipment.getOriginAddress())
                 .status(shipment.getStatus())
+                .build();
+    }
+
+    public static PersonResponseDTO toDTO(Person person) {
+        return PersonResponseDTO.builder()
+                .id(person.getId())
+                .name(person.getFullName())
+                .documentNumber(person.getDocument())
+                .email(person.getEmail())
+                .phone(person.getPhone())
                 .build();
     }
 }

@@ -1,19 +1,20 @@
 package com.logitrack.backend.service;
 
-import com.logitrack.backend.dto.CustomerDTO;
-import com.logitrack.backend.model.Customer;
+import com.logitrack.backend.dto.customer.CustomerResponseDTO;
+import com.logitrack.backend.dto.customer.CustomerCreateDTO;
+import com.logitrack.backend.dto.customer.CustomerUpdateDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface ICustomerService {
-    List<CustomerDTO> getCustomers();
+    List<CustomerResponseDTO> getCustomers();
 
-    CustomerDTO createCustomer(CustomerDTO customerDTO);
+    CustomerResponseDTO createCustomer(CustomerCreateDTO customerCreateDTO);
 
-    CustomerDTO getCustomer(Long id);
+    CustomerResponseDTO getCustomer(Long id);
 
-    CustomerDTO updateCustomer(Long id, CustomerDTO customerDTO);
+    CustomerResponseDTO updateCustomer(Long id, CustomerUpdateDTO customerUpdateDTO);
 
 }
